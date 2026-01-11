@@ -3,6 +3,8 @@ XzwNvim = {}
 require("core.init")
 require("plugins.init")
 
+
+
 -- keymap setting
 require("core.utils").group_map(XzwNvim.keymap)
 

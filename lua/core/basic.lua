@@ -124,4 +124,14 @@ vim.api.nvim_create_autocmd("WinNew", {
     end
 })
 
+-- autosave
+vim.api.nvim_create_autocmd("BufLeave", {
+    callback = function()
+        local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
+        if buftype == "" then
+            vim.cmd("silent! update")
+        end
+    end
+})
+
 vim.wo.wrap = false
