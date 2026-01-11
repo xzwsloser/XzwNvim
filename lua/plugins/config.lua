@@ -36,8 +36,6 @@ vim.api.nvim_create_autocmd("User", {
     end,
 })
 
--- plugins
-
 -- bufferline(缓冲区管理)
 config.bufferline = {
     "akinsho/bufferline.nvim",
@@ -181,11 +179,11 @@ config.dashboard = {
                     action = string.format("edit %s/init.lua", config_root),
                 },
 
-                -- {
-                --     icon = "  ",
-                --     desc = "Mason",
-                --     action = "Mason",
-                -- },
+               {
+                    icon = "  ",
+                    desc = "Mason",
+                    action = "Mason",
+                },
                 
                 {
                     icon = "  ",
@@ -292,24 +290,26 @@ config.lualine = {
 }
 
 -- markdown preview(Markdown预览)
--- config["markdown-preview"] = {
---     "iamcco/markdown-preview.nvim",
---     ft = "markdown",
---     config = function()
---         vim.g.mkdp_filetypes = { "markdown" }
---         vim.g.mkdp_auto_close = 0
---     end,
---     build = "cd app && npm install",
---     keys = {
---         {
---             "<leader>mp",
---             "<Cmd>MarkdownPreviewToggle<CR>",
---             desc = "markdown preview",
---             ft = "markdown",
---             silent = true,
---         },
---     },
--- }
+config["markdown-preview"] = {
+    "iamcco/markdown-preview.nvim",
+    ft = "markdown",
+    config = function()
+        vim.g.mkdp_filetypes = { "markdown" }
+        vim.g.mkdp_auto_close = 0
+    end,
+
+    build = "cd app yarn npm install",
+
+    keys = {
+        {
+            "<leader>mp",
+            "<Cmd>MarkdownPreviewToggle<CR>",
+            desc = "markdown preview",
+            ft = "markdown",
+            silent = true,
+        },
+    },
+}
 
 -- neogit(git 可视化)
 config.neogit = {
@@ -392,7 +392,21 @@ config["nvim-tree"] = {
                                 "tiff", "wav", "xls", "xlsx", "zip",
                             }
                             -- stylua: ignore end
-                            if table.find(extensions_opened_externally, node.extension) then
+                            -- if table.find(extensions_opened_externally, node.extension) then
+                            --     api.node.run.system()
+                            --     return
+                            -- end
+
+                            local function table_find(t, val)
+                                for _, v in ipairs(t) do
+                                    if v == val then
+                                        return true
+                                    end
+                                end
+                                return false
+                            end
+
+                            if table_find(extensions_opened_externally, node.extension) then
                                 api.node.run.system()
                                 return
                             end
