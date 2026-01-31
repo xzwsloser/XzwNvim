@@ -58,12 +58,24 @@ XzwNvim.plugins["nvim-dap"] = {
 
         dap.configurations.cpp = dap.configurations.c
 
-        vim.keymap.set('n', '<leader>du', function() require('dapui').toggle() end)
-        vim.keymap.set('n', '<leader>db', function() require('dap').toggle_breakpoint() end)
-        vim.keymap.set('n', '<leader>dc',  function() require('dap').continue() end)
-        vim.keymap.set('n', '<leader>do', function() require('dap').step_over() end)
-        vim.keymap.set('n', '<leader>di', function() require('dap').step_into() end)
-        vim.keymap.set('n', '<leader>dt', '<Cmd>DapTerminate<CR>')
+        vim.keymap.set('n', '<leader>du', function() require('dapui').toggle() end, {
+            desc = "open dap ui",
+        })
+        vim.keymap.set('n', '<leader>db', function() require('dap').toggle_breakpoint() end, {
+            desc = "toggle breakpoint",
+        })
+        vim.keymap.set('n', '<leader>dc',  function() require('dap').continue() end, {
+            desc = "dap continue",
+        })
+        vim.keymap.set('n', '<leader>do', function() require('dap').step_over() end, {
+            desc = "dap step over",
+        })
+        vim.keymap.set('n', '<leader>di', function() require('dap').step_into() end, {
+            desc = "dap step into",
+        })
+        vim.keymap.set('n', '<leader>dt', '<Cmd>DapTerminate<CR>', {
+            desc = "dap terminate",
+        })
     end,
 } 
 

@@ -29,21 +29,44 @@ local function undo()
 end
 
 -- @description: copy content to copyq
+-- local function text_to_copyq()
+--     local text = vim.fn.getreg('"')
+--     if not text or text == "" then
+--         vim.notify("无名寄存器为空，无内容可发送到 CopyQ", vim.log.levels.WARN)
+--         return
+--     end
+--
+--
+--     local cmd = string.format('printf "%s" "$(cat)" | copyq add -', text)
+--     local result = vim.fn.system(cmd, text)
+--
+--     if vim.v.shell_error ~= 0 then
+--         vim.notify("发送内容到 CopyQ 失败：" .. result, vim.log.levels.ERROR)
+--     else
+--         vim.notify("内容已成功发送到 CopyQ", vim.log.levels.INFO)
+--     end
+-- end
+
+-- 发送 Neovim 无名寄存器内容到 CopyQ（保留完整格式，支持长文本）
 local function text_to_copyq()
-    local text = vim.fn.getreg('"')
-    if not text or text == "" then
+    -- 获取无名寄存器原始内容（含所有格式：换行/空格/制表符等）
+    local reg_content = vim.fn.getreg('"')
+    -- 判空：无内容时给出提示，避免无效调用
+    if not reg_content or reg_content == "" then
         vim.notify("无名寄存器为空，无内容可发送到 CopyQ", vim.log.levels.WARN)
         return
     end
 
+    -- CopyQ 核心命令：- 表示从标准输入读取原始内容，不解析、不转义
+    local copyq_cmd = "copyq add -"
+    -- 关键：将寄存器内容作为标准输入传递，而非命令行参数
+    local shell_result = vim.fn.system(copyq_cmd, reg_content)
 
-    local cmd = string.format('copyq add %q', text)
-    local result = vim.fn.system(cmd)
-
+    -- 执行结果校验，失败时给出具体错误
     if vim.v.shell_error ~= 0 then
-        vim.notify("发送内容到 CopyQ 失败：" .. result, vim.log.levels.ERROR)
+        vim.notify("发送到 CopyQ 失败：" .. (shell_result or "未知错误"), vim.log.levels.ERROR)
     else
-        vim.notify("内容已成功发送到 CopyQ", vim.log.levels.INFO)
+        vim.notify("寄存器内容已成功发送到 CopyQ", vim.log.levels.INFO)
     end
 end
 
