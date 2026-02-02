@@ -103,6 +103,14 @@ XzwNvim.keymap = {
 	save_file = { { "n", "i", "v" }, "<C-s>", save_file },
 	undo = { { "n", "i", "v", "t", "c" }, "<C-z>", undo },
 
+    -- window size adjust
+    widen_to_right = { "n", "<M-Right>", "2<C-w>>", { silent = true, noremap = true }},
+    widen_to_left  =  { "n", "<M-Left>", "2<C-w><", { silent = true, noremap = true }},
+    widen_to_up    =  { "n", "<M-Up>", "2<C-w>+", { silent = true, noremap = true }},
+    widen_to_down    =  { "n", "<M-Down>", "2<C-w>-", { silent = true, noremap = true }},
+    reset_window_size = { "n", "<M-=>", "<C-w>=", { silent = true, noremap = true }},
+
+
 	-- select the current line
 	-- visual_line = { "n", "v", "0v$" },
 
