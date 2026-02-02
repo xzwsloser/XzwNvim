@@ -135,3 +135,28 @@ vim.api.nvim_create_autocmd("BufLeave", {
 })
 
 vim.wo.wrap = false
+
+vim.api.nvim_create_autocmd("TermOpen", {
+    pattern="*",
+    callback = function() 
+        vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", {
+            buffer = true,
+            noremap = true,
+            silent = true,
+        })
+    end
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
